@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\cmdline.h" />
     <ClInclude Include="inc\common.h" />
     <ClInclude Include="inc\error.h" />
     <ClInclude Include="inc\exenv.h" />
