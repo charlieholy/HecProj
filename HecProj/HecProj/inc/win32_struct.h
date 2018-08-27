@@ -9,6 +9,7 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 #pragma once
 #include <stdio.h>
+#pragma warning(disable:2664)
 
 #define S1	signed char
 #define S2	signed short
@@ -383,64 +384,7 @@ void printBytes(U1 bytes[], int nbytes)
 
 void testConversion()
 {
-	S2 w;
-	S4 d;
-	S8 q;
-	F4 f;
-	F8 db;
-	S1 *b;
-	S1 b2[2];
-	S1 b4[4];
-	S1 b8[8];
-
-	w = (S2)0xAB12;
-	d = 0xCAFEBABE;
-	q = 0xABABECAB12345678;
-	f = (F4)1.1e10;
-	db = 1.2e10;
-
-	checkEndian();
-
-	printf("\n---------------------------------\n");
-	printf("\nw=%hx\n", w);
-	b = (S1 *)&w;
-	printf("S1s before w: "); printBytes(b, 2);
-	wordToBytecode(w, b2); printf("Bytecode w: "); printBytes(b2, 2);
-	w = bytecodeToWord(b2); printf("S1s after w: "); printBytes(b, 2);
-	printf("w=%hx\n", w);
-
-	printf("\n---------------------------------\n");
-	printf("\nd=%x\n", d);
-	b = (S1 *)&d;
-	printf("before d: "); printBytes(b, 4);
-	dwordToBytecode(d, b4); printf("Bytecode d: "); printBytes(b4, 4);
-	d = bytecodeToDWord(b4); printf("after d: "); printBytes(b, 4);
-	printf("d=%x\n", d);
-
-	printf("\n---------------------------------\n");
-	printf("\nq=%I64x\n", q);
-	b = (S1 *)&q;
-	printf("before q: "); printBytes(b, 8);
-	qwordToBytecode(q, b8); printf("byecode q: "); printBytes(b8, 8);
-	q = bytecodeToQWord(b8); printf("after q: "); printBytes(b, 8);
-	printf("q=%I64x\n", q);
-
-	printf("\n---------------------------------\n");
-	printf("\nf=%e\n", f);
-	b = (S1 *)&f;
-	printf("before f: "); printBytes(b, 4);
-	floatToBytecode(f, b4); printf("Bytecode f: "); printBytes(b4, 4);
-	f = bytecodeToFloat(b4); printf("after f: "); printBytes(b, 4);
-	printf("\nf=%e\n", f);
-
-	printf("\n---------------------------------\n");
-	printf("\ndb=%e\n", db);
-	b = (S1 *)&db;
-	printf("before db: "); printBytes(b, 8);
-	doubleToBytecode(db, b8); printf("Bytecode db: "); printBytes(b8, 8);
-	db = bytecodeToDouble(b8); printf("after db: "); printBytes(b, 8);
-	printf("db=%e\n", db);
-	return;
+	
 
 }/*end testConversion*/
 

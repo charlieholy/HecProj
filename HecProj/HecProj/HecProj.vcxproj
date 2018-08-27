@@ -27,7 +27,7 @@
     <ClInclude Include="inc\win32_struct.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AAEF52A9-F07F-415A-8652-C597F9E2A826}</ProjectGuid>

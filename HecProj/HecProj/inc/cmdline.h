@@ -9,8 +9,10 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /*#define CMD_LINE_DEBUG		1*/
+#pragma once
 #include "win32_struct.h"
 #include "error.h"
+#pragma warning(disable:4996)
 
 #ifdef	CMD_LINE_DEBUG
 #define	CMD_LINE_DEBUG0(arg);				printf("handleArgs(): ");printf(arg);

@@ -23,7 +23,7 @@
 #include<iset.h>		/* instruction set ---指令集----------*/
 #include<exenv.h>		/* registers, RAM ---寄存器，存储器--------*/
 #include<error.h>		/* handle errors ----处理错误-----------*/
-
+#include<cmdline.h>
 #ifdef WINDOWS_32		/* instruction execution --指令执行----*/
 #include<intwin32.c>
 #endif
@@ -52,6 +52,16 @@
 
 void main(int argc, char *argv[])
 {
-	
+	CommandLine cmdLine(&maxErrors);
+	nErrors = 0;
+
+	/*1) handle command line arguments 处理命令行参数*/
+
+	//MAIN_DEBUG0("handling arguments\n");
+
+	if ((cmdLine.handleArgs(argc, argv)) == FALSE)
+	{
+		FATAL_ERROR();
+	}
 
 }/*end main*/
