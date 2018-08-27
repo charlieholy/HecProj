@@ -27,6 +27,15 @@
     <ClInclude Include="inc\cmdline.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\dbgdata.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\fltmath.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\filedmp.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
