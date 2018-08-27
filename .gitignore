@@ -1,0 +1,10 @@
+/HecProj/Debug/*.ilk
+/HecProj/Debug/*.pdb
+/HecProj/HecProj/Debug/*.log
+/HecProj/HecProj/Debug/HecProj.tlog/*.tlog
+/HecProj/HecProj/Debug/HecProj.tlog/*.lastbuildstate
+/HecProj/HecProj/Debug/*.obj
+/HecProj/HecProj/Debug/*.idb
+/HecProj/HecProj/Debug/*.pdb
+/HecProj/*.opendb
+/HecProj/*.db
