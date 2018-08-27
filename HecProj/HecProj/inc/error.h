@@ -1,33 +1,175 @@
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                                                                   +
-+ error.c - centralize syntax and symantic error handling           +
-+            语法和symantic集中的错误处理                           +
++ error.c - facilities used to handle errors                        +
++                                                                   +
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-#pragma once
-int maxErrors;  /*maximum # errors before shutdown, default = 10 */
-int nErrors;	/*keep track of number of errors*/
 
-/*
-	suffix indicates number of arguments in printf()
-*/
-#include "common.h"
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ macros                                                            +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-#define ERROR0(str);				printf("error: "); printf(str); incErrors();
-#define ERROR1(str,arg1);			printf("error: "); printf(str,arg1); incErrors();
-#define ERROR2(str,arg1,arg2);		printf("error: "); printf(str,arg1,arg2); incErrors();
-#define ERROR3(str,arg1,arg2,arg3);	printf("error: "); printf(str,arg1,arg2,arg3); incErrors();
-#define ERROR4(str,arg1,arg2,arg3,arg4);		printf("error: "); printf(str,arg1,arg2,arg3,arg4); incErrors();
-#define ERROR5(str,arg1,arg2,arg3,arg4,arg5);	printf("error: "); printf(str,arg1,arg2,arg3,arg4,arg5); incErrors();
-#define FATAL_ERROR();				printf("shutting down\n");//shutDown(SHUTDOWN_ERROR);	
+#define FATAL_ERROR();		shutDown(SHUTDOWN_ERROR);
+#define FATAL_ERROR1(str);	printf(str);printf("\n");xmlBegin();fprintf(errPtr,str);xmlEnd();shutDown(SHUTDOWN_ERROR);
 
-void incErrors()
+#define ERROR_LVL1(str);			FATAL_ERROR1(str);	
+#define ERROR0_LVL2(str);			printf(str);printf("\n");xmlBegin();fprintf(errPtr,str);xmlEnd();
+#define ERROR1_LVL2(str,arg1);		printf(str,arg1);printf("\n");xmlBegin();fprintf(errPtr,str,arg1);xmlEnd();
+#define ERROR2_LVL2(str,arg1,arg2);	printf(str,arg1,arg2);printf("\n");xmlBegin();fprintf(errPtr,str,arg1,arg2);xmlEnd();
+
+#define FCLOSE(arg);	if(fclose(arg)){ printf("could not close executable file\n"); }
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ private variables                                                 +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+FILE *errPtr = NULL;
+char errFileName[128];
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ private prototypes                                                +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+void xmlBegin(); /* print beginning of XML error message markup*/
+void xmlEnd(); /* print end of XML error message markup*/
+
+			   /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			   + public prototypes                                                 +
+			   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+void setUpErrorFile();
+void shutDown(U1 code);
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ definitions                                                       +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+void setUpErrorFile()
 {
-	nErrors++;
-	if(nErrors >= maxErrors)
+	time_t now;
+	struct tm local_time;
+	char digits[16];
+
+	int retval;
+
+	now = time(NULL);
+	local_time = *(localtime(&now));
+
+	strcpy(errFileName, "VM_ERROR_");
+
+	sprintf(digits, "%u", (local_time.tm_mon + 1));
+	strcat(errFileName, digits);
+	strcat(errFileName, "_");
+
+	sprintf(digits, "%u", local_time.tm_mday);
+	strcat(errFileName, digits);
+	strcat(errFileName, "_");
+
+	sprintf(digits, "%lu", (local_time.tm_year + 1900));
+	strcat(errFileName, digits);
+	strcat(errFileName, "_");
+
+	sprintf(digits, "%u", local_time.tm_hour);
+	strcat(errFileName, digits);
+	strcat(errFileName, "_");
+
+	sprintf(digits, "%u", local_time.tm_min);
+	strcat(errFileName, digits);
+	strcat(errFileName, "_");
+
+	sprintf(digits, "%u", local_time.tm_sec);
+	strcat(errFileName, digits);
+
+	strcat(errFileName, ".XML");
+
+	if ((errPtr = fopen(errFileName, "wb")) == NULL)
 	{
-		printf("incErrors(): Have hit maximum number of errors ->(%d)\n",maxErrors);
+		printf("setUpErrorFile(): error opening %s\n", errFileName);
 		FATAL_ERROR();
+	}
+
+	retval = fprintf(errPtr, "<ERRORS>\r\n");
+	if (retval < 0)
+	{
+		printf("setUpErrorFile(): ");
+		printf("error writing to %s\n", errFileName);
+		FATAL_ERROR();
+	}
+
+	return;
+
+}/*end setUpErrorFile*/
+
+void shutDown(U1 code)
+{
+	if (RAM != NULL) { free(RAM); }
+	else { printf("shutDown(): no RAM[] allocated\n"); }
+
+	if (errPtr != NULL)
+	{
+		int retval;
+		retval = fprintf(errPtr, "</ERRORS>");
+		if (retval < 0)
+		{
+			printf("shutDown(): ");
+			printf("error writing </ERROR> to %s\n", errFileName);
+		}
+		if (fclose(errPtr))
+		{
+			printf("shutDown(): error closing %s\n", errFileName);
+		}
+	}
+
+	exit(code);
+
+}/*end shutDown*/
+
+void xmlBegin()
+{
+	char str1[] = "<Message>\r\n\t";
+	char str2[] = "<time>%s</time>\r\n\t<content>";
+	char datestr[64];
+
+	time_t now;
+	int retval;
+	int i;
+
+	retval = fprintf(errPtr, str1);
+	if (retval < 0)
+	{
+		printf("xmlBegin(): ");
+		printf("error writing to %s\n", errFileName);
+		return;
+	}
+
+	/*get rid of '\n' at end of datestr created by ctime()*/
+	now = time(NULL);
+	strcpy(datestr, ctime(&now));
+	retval = strlen(datestr);
+	for (i = 0; i<retval; i++) { if (datestr[i] == '\n') { datestr[i] = '\0'; } }
+
+	retval = fprintf(errPtr, str2, datestr);
+	if (retval < 0)
+	{
+		printf("xmlBegin(): ");
+		printf("error writing to %s\n", errFileName);
 	}
 	return;
 
-}/*end incErrrors*/
+}/*end xmlBegin*/
+
+void xmlEnd()
+{
+	int retval;
+
+	retval = fprintf(errPtr, "</content>\r\n</Message>\r\n");
+	if (retval < 0)
+	{
+		printf("xmlEnd(): ");
+		printf("error writing to %s\n", errFileName);
+	}
+	return;
+
+}/*end xmlEnd*/
+
+
+

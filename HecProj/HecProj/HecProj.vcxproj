@@ -27,6 +27,7 @@
     <ClInclude Include="inc\filedmp.h" />
     <ClInclude Include="inc\fltmath.h" />
     <ClInclude Include="inc\iset.h" />
+    <ClInclude Include="inc\reformat.h" />
     <ClInclude Include="inc\win32_struct.h" />
   </ItemGroup>
   <ItemGroup>

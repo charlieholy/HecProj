@@ -36,6 +36,9 @@
     <ClInclude Include="inc\filedmp.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\reformat.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
