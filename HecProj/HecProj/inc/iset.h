@@ -5,7 +5,7 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /* DATA TRANSFER --------------------------------------------------*/
-
+#pragma once
 #define	LBI		0	
 #define LWI		1
 #define	LDI		2
@@ -54,7 +54,7 @@
 #define	JE		36  
 #define	JNE		37
 #define SLT		38	
-#define	INT		39
+#define	C_INT		39
 #define	DI		40
 #define	EI		41
 #define HALT	42
@@ -116,7 +116,7 @@ char *I_Set[73] =
 		"PUSHB","PUSHW","PUSHD","PUSHQ","PUSHF1","PUSHF2",	
 		"POPB","POPW","POPD","POPQ","POPF1","POPF2",		
 		"MOV","MOVF","MOVD",
-		"JMP","JE","JNE","SLT","INT","DI","EI","HALT","NOP", 
+		"JMP","JE","JNE","SLT","C_INT","DI","EI","HALT","NOP", 
 		"AND","OR","XOR","NOT","BT","BS",	
 		"SRA","SRL","SL",			
 		"ADD","SUB","MULT","DIV",

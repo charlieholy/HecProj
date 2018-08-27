@@ -12,21 +12,21 @@
     <ClInclude Include="inc\win32_struct.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\common.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\iset.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\exenv.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\error.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\common.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\exenv.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\iset.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.c">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\win32.c">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

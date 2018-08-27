@@ -6,8 +6,8 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /* memory pointer, allocate memory on boot ------------------------*/
+#pragma once
 #include "win32_struct.h"
-
 U1 *RAM;	/* [0,$BE]=code [$HS,$HE]=heap [$SS,$TOP]=stack */
 
 /* REGISTERS ------------------------------------------------------*/

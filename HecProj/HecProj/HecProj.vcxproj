@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\common.h" />
+    <ClInclude Include="inc\error.h" />
+    <ClInclude Include="inc\exenv.h" />
+    <ClInclude Include="inc\iset.h" />
     <ClInclude Include="inc\win32_struct.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\common.c" />
-    <ClCompile Include="src\exenv.c" />
-    <ClCompile Include="src\iset.c" />
     <ClCompile Include="src\main.c" />
-    <ClCompile Include="src\win32.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AAEF52A9-F07F-415A-8652-C597F9E2A826}</ProjectGuid>
