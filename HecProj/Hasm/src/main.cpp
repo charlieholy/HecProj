@@ -92,7 +92,70 @@ void main(int argc, char *argv[])
 
 	MAIN_DEBUG0("initiating first pass\n");
 
+	StringTable strTbl;
+	HashTable hashTbl(&strTbl);
+	SymbolTable symTbl(&strTbl);
 
+	struct Line line;
+	{
+		Pass1 pass1(&strTbl, &symTbl, &hashTbl);
+		LineScanner scanner(&cmdLine);
+		line = scanner.getInputLine();
+		while (line.end != TRUE)
+		{
+			pass1.parseLine(&line);
+			line = scanner.getInputLine();
+		}
+		pass1.parseLine(&line);
+	}
+
+	if (nErrors > 0)
+	{
+		printf("%d Error(s) during first pass\n", nErrors);
+		printf("build failed\n");
+		FATAL_ERROR();
+	}
+
+	/*3) PASS2 - create bytecode temp file and listing file */
+
+	MAIN_DEBUG0("initiating second pass\n");
+	{
+		Pass2 pass2(&cmdLine, &strTbl, &symTbl, &hashTbl);
+		LineScanner scanner(&cmdLine);
+		line = scanner.getInputLine();
+		while (line.end != TRUE)
+		{
+			pass2.parseLine(&line);
+			line = scanner.getInputLine();
+		}
+		pass2.parseLine(&line);
+		if (cmdLine.listing == TRUE) { pass2.generateSymbolSummary(); }
+	}
+	MAIN_DEBUG1("%lu bytes written to tempfile\n", pass2.bytePosPass2);
+
+
+	/*if errors exist after 2rd pass, shutdown */
+
+	if (nErrors > 0)
+	{
+		printf("main(): %d Error(s) during second pass\n", nErrors);
+		printf("main(): build failed\n");
+		FATAL_ERROR();
+	}
+
+	/*4) build compilation unit */
+
+	MAIN_DEBUG0("building bytecode executable\n");
+	{
+		BuildFile bldfile(&cmdLine, &strTbl, &symTbl);
+		bldfile.buildFileFormat();
+	}
+
+	/*5) safe-shutdown */
+
+	printf("main(): exiting with (%d) errors\n", nErrors);
+	shutDown(SHUTDOWN_OK);
+	return;
 
 }/*end main*/
 
