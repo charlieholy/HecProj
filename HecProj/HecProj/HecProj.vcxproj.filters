@@ -45,6 +45,9 @@
     <ClInclude Include="inc\tree.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\hashtbl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

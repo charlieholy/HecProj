@@ -18,27 +18,9 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="inc\cmdline.h" />
-    <ClInclude Include="inc\common.h" />
-    <ClInclude Include="inc\dbgdata.h" />
-    <ClInclude Include="inc\error.h" />
-    <ClInclude Include="inc\exenv.h" />
-    <ClInclude Include="inc\filedmp.h" />
-    <ClInclude Include="inc\fltmath.h" />
-    <ClInclude Include="inc\hashtbl.h" />
-    <ClInclude Include="inc\iset.h" />
-    <ClInclude Include="inc\list.h" />
-    <ClInclude Include="inc\reformat.h" />
-    <ClInclude Include="inc\tree.h" />
-    <ClInclude Include="inc\win32_struct.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AAEF52A9-F07F-415A-8652-C597F9E2A826}</ProjectGuid>
-    <RootNamespace>HecProj</RootNamespace>
+    <ProjectGuid>{2D1AA406-51F2-422D-ADAF-A816C638220F}</ProjectGuid>
+    <RootNamespace>Hasm</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -86,9 +68,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)inc;$(IncludePath)</IncludePath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -129,6 +109,12 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\iset.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
