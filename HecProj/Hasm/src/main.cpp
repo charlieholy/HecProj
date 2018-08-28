@@ -40,19 +40,19 @@ void shutDown(U1 code);
 #include<common.h>
 #include<error.h>
 #include<cmdline.h>
-#if 0
-#include<lnscan.cpp>
-#include<strtbl.cpp>
-#include<globvar.cpp>
-#include<sframe.cpp>
-#include<label.cpp>
-#include<proc.cpp>
-#include<symtbl.cpp>
-#include<hashtbl.cpp>
-#include<linetok.cpp>
-#include<pass1.cpp>
-#include<pass2.cpp>
-#include<bldfile.cpp>
+#if 1
+#include<lnscan.h>
+#include<strtbl.h>
+#include<globvar.h>
+#include<sframe.h>
+#include<label.h>
+#include<proc.h>
+#include<symtbl.h>
+#include<hashtbl.h>
+#include<linetok.h>
+#include<pass1.h>
+#include<pass2.h>
+#include<bldfile.h>
 #endif
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 + macros                                                            +

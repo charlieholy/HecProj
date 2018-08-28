@@ -112,13 +112,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\bldfile.h" />
     <ClInclude Include="inc\cmdline.h" />
     <ClInclude Include="inc\common.h" />
     <ClInclude Include="inc\error.h" />
     <ClInclude Include="inc\exenv.h" />
+    <ClInclude Include="inc\globvar.h" />
+    <ClInclude Include="inc\hashtbl.h" />
     <ClInclude Include="inc\iset.h" />
+    <ClInclude Include="inc\label.h" />
     <ClInclude Include="inc\linetok.h" />
+    <ClInclude Include="inc\list.h" />
     <ClInclude Include="inc\lnscan.h" />
+    <ClInclude Include="inc\pass1.h" />
+    <ClInclude Include="inc\pass2.h" />
+    <ClInclude Include="inc\proc.h" />
+    <ClInclude Include="inc\sframe.h" />
+    <ClInclude Include="inc\strtbl.h" />
+    <ClInclude Include="inc\symtbl.h" />
+    <ClInclude Include="inc\tree.h" />
     <ClInclude Include="inc\win32_struct.h" />
   </ItemGroup>
   <ItemGroup>

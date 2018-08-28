@@ -33,6 +33,42 @@
     <ClInclude Include="inc\linetok.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\pass1.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\list.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\tree.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\strtbl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\symtbl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\globvar.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\proc.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\sframe.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\label.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\pass2.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\bldfile.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\hashtbl.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
