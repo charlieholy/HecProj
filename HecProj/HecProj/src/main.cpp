@@ -1,41 +1,27 @@
 #include <stdio.h>
-
-unsigned char flag = 0;
-void alert(unsigned char *ptr);
+#include "list.h"
 void main() {
-	int i;
-	unsigned char breakpoint = 0xCC;
-	unsigned char *sptr;
-	unsigned char *eptr;
-	unsigned char *cptr;
-start:
-	__asm
-	{
-		LEA EAX, start
-		MOV sptr, EAX
-		LEA EAX, end
-		MOV eptr, EAX
-	}
-	cptr = sptr;
-	while (cptr < eptr)
-	{
-		if (*cptr == breakpoint) {
-			alert(cptr);
-		}
-		cptr++;
-	}
-	printf("do some work..start and end label");
-	i++;
-end:
-	if (flag) { printf("breakpoint found\n"); }
-	else { printf("no breakpoints\n");}
-	return;
-	
-}
-void alert(unsigned char *ptr)
-{
-	printf("a break point exist\n");
-	printf("address %1X\n", ptr);
-	flag = 1;
+	List list(4, 4);
+
+	list.addToList(4);
+	list.addToList(-5);
+	list.addToList(1);
+	list.addToList(11);
+
+	list.addToList(7);
+	list.addToList(8);
+	list.addToList(-12);
+	list.addToList(122);
+
+	list.addToList(4);
+	list.addToList(5);
+	list.addToList(5);
+	list.addToList(-101);
+
+	list.addToList(3);
+
+	list.printList();
+
+	printf("list[2]=%d\n", list.ptr[2]);
 	return;
 }
