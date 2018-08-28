@@ -12,6 +12,15 @@
     <ClInclude Include="inc\iset.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\error.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\win32_struct.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\common.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

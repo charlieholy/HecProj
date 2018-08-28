@@ -5,6 +5,7 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /* DATA TRANSFER --------------------------------------------------*/
+#pragma once
 
 #define	LBI		0	
 #define LWI		1
@@ -54,7 +55,7 @@
 #define	JE		36  
 #define	JNE		37
 #define SLT		38	
-#define	INT		39
+#define	C_INT		39  /////confi...
 #define	DI		40
 #define	EI		41
 #define HALT	42
