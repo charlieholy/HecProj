@@ -10,6 +10,7 @@
 
 /*#define CMD_LINE_DEBUG		1*/
 #pragma once
+#pragma warning(disable:4996)
 #include "common.h"
 #include "win32_struct.h"
 #include "error.h"
