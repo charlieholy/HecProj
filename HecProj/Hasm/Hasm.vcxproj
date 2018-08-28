@@ -115,6 +115,7 @@
     <ClInclude Include="inc\cmdline.h" />
     <ClInclude Include="inc\common.h" />
     <ClInclude Include="inc\error.h" />
+    <ClInclude Include="inc\exenv.h" />
     <ClInclude Include="inc\iset.h" />
     <ClInclude Include="inc\win32_struct.h" />
   </ItemGroup>
