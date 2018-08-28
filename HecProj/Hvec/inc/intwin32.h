@@ -12,6 +12,12 @@
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +  handlefileIO                                                     +
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#pragma once
+#include "win32_struct.h"
+#include "common.h"
+#include "exenv.h"
+#include "error.h"
+#include "cmdline.h"
 
 void handlefileIO()
 {
@@ -25,7 +31,7 @@ void handlefileIO()
 			FILE *fptr;
 			if(R[$R3]>4){ R[$R4]=0; return; }
 			/*printf("opening %s\n",&RAM[R[$R2]]);*/
-			fptr = fopen(&RAM[R[$R2]],modes[R[$R3]]);
+			fptr = fopen((char*)&RAM[R[$R2]],modes[R[$R3]]);
 			if(fptr==NULL)
 			{ R[$R4]=0; /*printf("cannot open file\n");*/ }
 			else{ R[$R4] = (U8)fptr; }
@@ -251,7 +257,7 @@ void handleFileManagement()
 	{
 		case 0:
 		{
-			retval = _access(&RAM[R[$R2]],0); /*exist*/
+			retval = _access((char*)&RAM[R[$R2]],0); /*exist*/
 			if(retval==0){ R[$R3]=1; }
 			else{ R[$R3]=0; }
 
@@ -259,7 +265,7 @@ void handleFileManagement()
 		case 1:
 		{
 			DWORD result;
-			result = GetFileAttributes(&RAM[R[$R2]]);
+			result = GetFileAttributes((char*)&RAM[R[$R2]]);
 			if(result==0xFFFFFFFF)
 			{
 				R[$R3]=2;
@@ -279,14 +285,14 @@ void handleFileManagement()
 		}break;
 		case 2:
 		{
-			retval = _access(&RAM[R[$R2]],4); /*read*/
+			retval = _access((char*)&RAM[R[$R2]],4); /*read*/
 			if(retval==0){ R[$R3]=1; }
 			else{ R[$R3]=0; }
 
 		}break;
 		case 3:
 		{
-			retval = _access(&RAM[R[$R2]],2); /*write*/
+			retval = _access((char*)&RAM[R[$R2]],2); /*write*/
 			if(retval==0){ R[$R3]=1; }
 			else{ R[$R3]=0; }
 
@@ -294,7 +300,7 @@ void handleFileManagement()
 		case 4:
 		{
 			int handle;
-			handle = _open(&RAM[R[$R2]],_O_RDONLY);
+			handle = _open((char*)&RAM[R[$R2]],_O_RDONLY);
 			if(handle==-1)
 			{
 				R[$R3] = 0;
@@ -321,7 +327,7 @@ void handleFileManagement()
 		case 5:
 		{
 			int handle;
-			handle = _open(&RAM[R[$R2]],_O_RDONLY);
+			handle = _open((char*)&RAM[R[$R2]],_O_RDONLY);
 			if(handle==-1)
 			{
 				R[$R3] = 0;
@@ -352,30 +358,30 @@ void handleFileManagement()
 		}break;
 		case 6:
 		{
-			if(remove(&RAM[R[$R2]])==-1){ R[$R3]=1; }
+			if(remove((char*)&RAM[R[$R2]])==-1){ R[$R3]=1; }
 			else{ R[$R3]=0; }
 
 		}break;
 		case 7:
 		{
-			if(_mkdir(&RAM[R[$R2]])==-1){ R[$R3]=1; }
+			if(_mkdir((char*)&RAM[R[$R2]])==-1){ R[$R3]=1; }
 			else{ R[$R3]=0; }
 
 		}break;
 		case 8:
 		{
-			if(_rmdir(&RAM[R[$R2]])==-1){ R[$R3]=1; }
+			if(_rmdir((char*)&RAM[R[$R2]])==-1){ R[$R3]=1; }
 			else{ R[$R3]=0; }
 
 		}break;
 		case 9:
 		{
 			char full[_MAX_PATH];
-			if(_fullpath(full,&RAM[R[$R2]],_MAX_PATH)!=NULL)
+			if(_fullpath(full,(char*)&RAM[R[$R2]],_MAX_PATH)!=NULL)
 			{
 				int len;
 				len = strlen(full);
-				strcpy(&RAM[R[$R3]],full);
+				strcpy((char*)&RAM[R[$R3]],full);
 				R[$R4]=0;
 				R[$R5]=len+1; /*include null*/
 			}
@@ -401,14 +407,14 @@ void handleFileManagement()
 			
 			/*max windows filename is 215 chars in length*/
 
-			if(strlen(&RAM[R[$R2]])>215)
+			if(strlen((char*)&RAM[R[$R2]])>215)
 			{
 				R[$R5]=0;
 				R[$R6]=1;
 			}
 			else
 			{
-				strcat(buffer,&RAM[R[$R2]]);
+				strcat(buffer,(char*)&RAM[R[$R2]]);
 				strcat(buffer," /b");
 				pipe = _popen(buffer,"rb");
 				if(pipe==NULL)
@@ -421,7 +427,7 @@ void handleFileManagement()
 					R[$R5]=fread(buffer,1,16*1024,pipe);
 					if(R[$R3]!=1)
 					{
-						strcpy(&RAM[R[$R4]],buffer);
+						strcpy((char*)&RAM[R[$R4]],buffer);
 					}
 					R[$R6]=0;
 					_pclose(pipe);
@@ -431,7 +437,7 @@ void handleFileManagement()
 		}break;
 		case 12:
 		{
-			if(rename(&RAM[R[$R2]],&RAM[R[$R3]]))
+			if(rename((char*)&RAM[R[$R2]],(char*)&RAM[R[$R3]]))
 			{
 				R[$R4]=1;
 			}
@@ -469,7 +475,7 @@ void handleProcessManagement()
 			GetStartupInfo(&sinfo);
 
 			retval = CreateProcess(NULL,
-				                   &RAM[R[$R2]],
+				                   (char*)&RAM[R[$R2]],
 								   NULL,
 								   NULL,
 								   FALSE,
@@ -498,7 +504,7 @@ void handleProcessManagement()
 			code=STILL_ACTIVE;
 			while(code==STILL_ACTIVE)
 			{
-				retval = GetExitCodeProcess((HANDLE)R[$R2],&code);
+				retval = GetExitCodeProcess((HANDLE)R[$R2],(LPDWORD)&code);
 			}
 			if(retval==FALSE)
 			{
@@ -515,7 +521,7 @@ void handleProcessManagement()
 		case 2:
 		{
 			int retval;
-			retval = system(&RAM[R[$R2]]);
+			retval = system((char*)&RAM[R[$R2]]);
 			if(retval==-1)
 			{ 
 				R[$R3]=0;
@@ -532,7 +538,7 @@ void handleProcessManagement()
 		{
 			FILE *pipe;
 			
-			pipe = _popen(&RAM[R[$R2]],"rb");
+			pipe = _popen((char*)&RAM[R[$R2]],"rb");
 			if(pipe==NULL)
 			{
 				R[$R5]=0;
@@ -618,7 +624,7 @@ void handleTimeDateCall()
 			time_t t;
 			t = (time_t)R[$R2];
 			strcpy(datestr,ctime(&t));
-			strcpy(&RAM[R[$R3]],datestr);
+			strcpy((char*)&RAM[R[$R3]],datestr);
 			RAM[R[$R3]+24]=0;
 
 		}break;
@@ -658,10 +664,10 @@ void handleCommandLine()
 		{
 			if(R[$R2]<programArgs.nArgs)
 			{
-				strncpy(&RAM[R[$R3]],programArgs.args[R[$R2]],256);
+				strncpy((char*)&RAM[R[$R3]],programArgs.args[R[$R2]],256);
 				RAM[R[$R3]+256]=0;
 				R[$R4]=0;
-				R[$R5]= strlen(&RAM[R[$R3]]);
+				R[$R5]= strlen((char*)&RAM[R[$R3]]);
 				R[$R5]= R[$R5] + 1;
 			}
 			else
@@ -960,22 +966,22 @@ void handleMathCall()
 	{
 		case 0:
 		{
-			R[$R3]=_atoi64(&RAM[R[$R2]]);
+			R[$R3]=_atoi64((char*)&RAM[R[$R2]]);
 
 		}break;
 		case 1:
 		{
-			Rd[$D1]=atof(&RAM[R[$R2]]);
+			Rd[$D1]=atof((char*)&RAM[R[$R2]]);
 
 		}break;
 		case 2:
 		{
-			sprintf(&RAM[R[$R3]],"%I64d",R[$R2]);
+			sprintf((char*)&RAM[R[$R3]],"%I64d",R[$R2]);
 
 		}break;
 		case 3:
 		{
-			sprintf(&RAM[R[$R3]],"%e",Rd[$D1]);
+			sprintf((char*)&RAM[R[$R3]],"%e",Rd[$D1]);
 
 		}break;
 		case 4:
@@ -1109,7 +1115,7 @@ void handleNativeCall()
 		case 0:
 		{
 			HINSTANCE file_handle;
-			file_handle = LoadLibrary(&RAM[R[$R2]]);
+			file_handle = LoadLibrary((char*)&RAM[R[$R2]]);
 			R[$R3]= (U8)file_handle;
 			if(file_handle==NULL){ R[$R4]=1; }
 			else{ R[$R4]=0; }
@@ -1126,7 +1132,7 @@ void handleNativeCall()
 			else
 			{
 				R[$R5]=0;
-				(address)(&RAM[R[$R3]],&RAM[R[$R4]]);
+				(address)((char*)&RAM[R[$R3]],(char*)&RAM[R[$R4]]);
 			}
 
 		}break;
@@ -1187,13 +1193,13 @@ void handleIPC()
 		{
 			HANDLE hmutex;  // void*
 
-			hmutex = CreateMutex(NULL,TRUE,&RAM[R[$R2]]);
+			hmutex = CreateMutex(NULL,TRUE,(char*)&RAM[R[$R2]]);
 			if(hmutex==NULL)
 			{
 				if(GetLastError()==ERROR_ALREADY_EXISTS)
 				{
 					hmutex = 
-					OpenMutex(MUTEX_ALL_ACCESS,FALSE,&RAM[R[$R2]]);
+					OpenMutex(MUTEX_ALL_ACCESS,FALSE,(char*)&RAM[R[$R2]]);
 					if(hmutex==FALSE)
 					{
 						R[$R4]=1;
@@ -1254,7 +1260,7 @@ void handleIPC()
 
 				address.sin_family=AF_INET;
 				address.sin_port = htons((unsigned short)R[$R3]);
-				address.sin_addr.s_addr = inet_addr(&RAM[R[$R2]]);
+				address.sin_addr.s_addr = inet_addr((char*)&RAM[R[$R2]]);
 
 				client = socket(AF_INET,SOCK_STREAM,0);
 				if(client==INVALID_SOCKET)
@@ -1308,7 +1314,7 @@ void handleIPC()
 			nLeft=(int)R[$R4];
 			index=0;
 			R[$R5]=0;
-			buffer = &RAM[R[$R3]];
+			buffer = (char*)&RAM[R[$R3]];
 			while(nLeft>0)
 			{
 				int ret;
@@ -1335,7 +1341,7 @@ void handleIPC()
 			nLeft=(int)R[$R4];
 			index=0;
 			R[$R5]=0;
-			buffer = &RAM[R[$R3]];
+			buffer = (char*)&RAM[R[$R3]];
 			while(nLeft>0)
 			{
 				int ret;
@@ -1361,7 +1367,7 @@ void handleIPC()
 			}
 			else
 			{
-				if(gethostname(&RAM[R[$R2]],(int)R[$R3]))
+				if(gethostname((char*)&RAM[R[$R2]],(int)R[$R3]))
 				{ 
 					R[$R4]=1; 
 					WSACleanup();
@@ -1385,7 +1391,7 @@ void handleIPC()
 			}
 			else
 			{
-				hp = gethostbyname(&RAM[R[$R2]]);
+				hp = gethostbyname((char*)&RAM[R[$R2]]);
 				if(hp==NULL)
 				{
 					R[$R4]=1;
@@ -1399,7 +1405,7 @@ void handleIPC()
 						memcpy(&addr, 
 							  (*hp).h_addr_list[0],
 							  sizeof(struct in_addr));
-						strcpy(&RAM[R[$R3]],inet_ntoa(addr));
+						strcpy((char*)&RAM[R[$R3]],inet_ntoa(addr));
 					}
 					for (i =1;(*hp).h_addr_list[i]!=0;++i)
 					{
@@ -1407,8 +1413,8 @@ void handleIPC()
 						memcpy(&addr, 
 							  (*hp).h_addr_list[i],
 							  sizeof(struct in_addr));
-						strcat(&RAM[R[$R3]],":");
-						strcat(&RAM[R[$R3]],inet_ntoa(addr));
+						strcat((char*)&RAM[R[$R3]],":");
+						strcat((char*)&RAM[R[$R3]],inet_ntoa(addr));
 					}
 
 					R[$R4]=0;
@@ -1428,7 +1434,7 @@ void handleIPC()
 			}
 			else
 			{
-				hostaddr.s_addr = inet_addr(&RAM[R[$R2]]);
+				hostaddr.s_addr = inet_addr((char*)&RAM[R[$R2]]);
 
 				hp = gethostbyaddr((char *)&hostaddr,
 					                sizeof(struct in_addr),
@@ -1440,7 +1446,7 @@ void handleIPC()
 				}
 				else
 				{
-					strcpy(&RAM[R[$R3]],(*hp).h_name);
+					strcpy((char*)&RAM[R[$R3]],(*hp).h_name);
 					R[$R4]=0;
 				}
 
@@ -1462,7 +1468,7 @@ void handleIPC()
 
 				address.sin_family=AF_INET;
 				address.sin_port = htons((unsigned short)R[$R3]);
-				address.sin_addr.s_addr = inet_addr(&RAM[R[$R2]]);
+				address.sin_addr.s_addr = inet_addr((char*)&RAM[R[$R2]]);
 
 				server = socket(AF_INET,SOCK_STREAM,0);
 				if(server==INVALID_SOCKET)
@@ -1510,7 +1516,7 @@ void handleIPC()
 			else
 			{
 				R[$R5]=0;
-				strcpy(&RAM[R[$R3]],inet_ntoa(client.sin_addr));
+				strcpy((char*)&RAM[R[$R3]],inet_ntoa(client.sin_addr));
 				R[$R4]=(U8)connection;
 			}
 

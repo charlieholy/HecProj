@@ -9,6 +9,7 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 #pragma once
 #include "win32_struct.h"
+#include "load.h"
 
 U1 interruptOn;
 

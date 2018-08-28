@@ -7,6 +7,10 @@
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 + macros                                                            + 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#pragma once
+#include "win32_struct.h"
+#include "cmdline.h"
+#include "dbgdata.h"
 
 #define	APPLICATION		0xDEED	/* identifies an executable file (magic number) */
 
