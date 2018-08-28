@@ -1,27 +1,51 @@
 #include <stdio.h>
 #include "list.h"
-void main() {
-	List list(4, 4);
+#include "tree.h"
+#include "hashtbl.h"
 
-	list.addToList(4);
-	list.addToList(-5);
-	list.addToList(1);
-	list.addToList(11);
+void main()
+{
+	char str[32];
+	HashTable ht;
 
-	list.addToList(7);
-	list.addToList(8);
-	list.addToList(-12);
-	list.addToList(122);
+	ht.addHashTblEntry("register");
+	ht.addHashTblEntry("asm");
+	ht.addHashTblEntry("union");
+	ht.addHashTblEntry("goto");
+	ht.addHashTblEntry("do");
+	ht.addHashTblEntry("public");
+	ht.addHashTblEntry("extern");
+	ht.addHashTblEntry("main");
+	ht.addHashTblEntry("break");
+	ht.addHashTblEntry("this");
+	ht.addHashTblEntry("float");
+	ht.addHashTblEntry("if");
+	ht.addHashTblEntry("void");
+	ht.addHashTblEntry("new");
+	ht.addHashTblEntry("case");
+	ht.addHashTblEntry("sizeof");
 
-	list.addToList(4);
-	list.addToList(5);
-	list.addToList(5);
-	list.addToList(-101);
+	ht.addHashTblEntry("goto"); /*attempt redefinition*/
 
-	list.addToList(3);
+	ht.printHashTbl();
 
-	list.printList();
+	strcpy(str, "float");
+	if ((ht.queryHashTbl(str)) != NULL) { printf("found %s\n", str); }
+	else { printf("did NOT find %s\n", str); }
 
-	printf("list[2]=%d\n", list.ptr[2]);
+	strcpy(str, "tax_audit");
+	if ((ht.queryHashTbl(str)) != NULL) { printf("found %s\n", str); }
+	else { printf("did NOT find %s\n", str); }
+
+	strcpy(str, "extern");
+	if ((ht.queryHashTbl(str)) != NULL) { printf("found %s\n", str); }
+	else { printf("did NOT find %s\n", str); }
+
+	strcpy(str, "technobabble");
+	if ((ht.queryHashTbl(str)) != NULL) { printf("found %s\n", str); }
+	else { printf("did NOT find %s\n", str); }
+
+
 	return;
-}
+
+}/*end main*/

@@ -29,6 +29,7 @@
     <ClInclude Include="inc\iset.h" />
     <ClInclude Include="inc\list.h" />
     <ClInclude Include="inc\reformat.h" />
+    <ClInclude Include="inc\tree.h" />
     <ClInclude Include="inc\win32_struct.h" />
   </ItemGroup>
   <ItemGroup>
