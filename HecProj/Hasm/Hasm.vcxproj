@@ -117,6 +117,8 @@
     <ClInclude Include="inc\error.h" />
     <ClInclude Include="inc\exenv.h" />
     <ClInclude Include="inc\iset.h" />
+    <ClInclude Include="inc\linetok.h" />
+    <ClInclude Include="inc\lnscan.h" />
     <ClInclude Include="inc\win32_struct.h" />
   </ItemGroup>
   <ItemGroup>
