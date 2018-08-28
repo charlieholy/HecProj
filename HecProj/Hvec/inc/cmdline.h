@@ -9,6 +9,9 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /*#define DBG_CMDLINE		1*/
+#pragma once
+#include "win32_struct.h"
+#include "error.h"
 
 #ifdef DBG_CMDLINE
 #define DBG_CMDLINE0(str)				printf("handleArguments(): "); printf(str);

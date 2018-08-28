@@ -7,6 +7,13 @@
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 + macros                                                            +
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#pragma once
+#include "win32_struct.h"
+#include "error.h"
+#include "dbgdata.h"
+#include "cmdline.h"
+#include "iset.h"
+#include "exenv.h"
 
 #define MAX_DBG_CHARS	256
 #define BAD_RANGE		-1
@@ -72,7 +79,7 @@ void readDbgCmd()
 		printf("debug>");
 		scanf("%s",debugLine);
 
-		size = strlen(debugLine);
+		size = strlen((char*)debugLine);
 		if(size>=MAX_DBG_CHARS)
 		{ 
 			ERROR0_LVL2("error: input command out of bounds"); 
@@ -351,7 +358,7 @@ void searchForStr()
 
 	/* search rng.start->rng.stop for debugLine */
 		
-	size = strlen(debugLine);
+	size = strlen((char*)debugLine);
 	if(size==0)
 	{
 		printf("bad search string entered\n");
@@ -361,8 +368,8 @@ void searchForStr()
 	for(i=rng.start;i<=rng.stop;i++)
 	{
 		if(RAM[i]==debugLine[0])
-		{
-			ret = cmpRAMStr(debugLine,&RAM[i],size);
+		{	
+			ret = cmpRAMStr((unsigned char*)debugLine,&RAM[i],size);
 			if(ret==TRUE)
 			{
 				printf("Match-> address="); 
@@ -451,7 +458,7 @@ U1 searchForGlobal(char *str)
 
 	for(i=0;i<debugData.contents.nGlobVarRec;i++)
 	{
-		temp = &(debugData.strTbl[debugData.gvRec[i].text]);
+		temp = (char*)&(debugData.strTbl[debugData.gvRec[i].text]);
 		if(strcmp(str,temp)==0)
 		{
 			printf("global variable->%s\n",str);
@@ -479,7 +486,7 @@ U1 searchForGlobal(char *str)
 U1 matchProcName(char *str, U4 ind)
 {
 	char *procname;
-	procname = &debugData.strTbl[debugData.pRec[ind].text];
+	procname = (char*)&debugData.strTbl[debugData.pRec[ind].text];
 	if(strcmp(str,procname)==0)
 	{
 		printf("function->%s\n",str);
@@ -507,7 +514,7 @@ U1 searchCurrentProc(char *str, U4 ind)
 	
 	if(debugData.pRec[ind].nRet==1)
 	{
-		temp = &(debugData.strTbl[debugData.pRec[ind].ret.text]);
+		temp = (char*)&(debugData.strTbl[debugData.pRec[ind].ret.text]);
 		if(strcmp(str,temp)==0)
 		{
 			printf("return value->%s\n",str);
@@ -520,7 +527,7 @@ U1 searchCurrentProc(char *str, U4 ind)
 	}
 	for(i=0;i<narg;i++)
 	{
-		temp = &(debugData.strTbl[debugData.pRec[ind].arg[i].text]);
+		temp = (char*)&(debugData.strTbl[debugData.pRec[ind].arg[i].text]);
 		if(strcmp(str,temp)==0)
 		{
 			printf("procedure argument->%s\n",str);
@@ -533,7 +540,7 @@ U1 searchCurrentProc(char *str, U4 ind)
 	}
 	for(i=0;i<nloc;i++)
 	{
-		temp = &(debugData.strTbl[debugData.pRec[ind].local[i].text]);
+		temp = (char*)&(debugData.strTbl[debugData.pRec[ind].local[i].text]);
 		if(strcmp(str,temp)==0)
 		{
 			printf("local storage->%s\n",str);
@@ -546,7 +553,7 @@ U1 searchCurrentProc(char *str, U4 ind)
 	}
 	for(i=0;i<nlbl;i++)
 	{
-		temp = &(debugData.strTbl[debugData.pRec[ind].label[i].text]);
+		temp = (char*)&(debugData.strTbl[debugData.pRec[ind].label[i].text]);
 		if(strcmp(str,temp)==0)
 		{
 			printf("label->%s\n",str);

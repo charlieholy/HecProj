@@ -7,6 +7,8 @@
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 + macros                                                            +
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#include "win32_struct.h"
+#include "error.h"
 
 #define SIZE_HEADER		26		/* byte size of executable header */
 #define SIZE_GLOBREC	37		/* byte size of global record */
